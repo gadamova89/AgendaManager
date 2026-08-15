@@ -34,6 +34,7 @@ namespace CapaDatos
         public bool InsertarEventos(string titulo, string descripcion, DateTime fechaHora, string ubicacion)
         {
             SqlCommand comando = new SqlCommand();
+
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "InsertarEventos";
             comando.CommandType = CommandType.StoredProcedure;
@@ -58,6 +59,7 @@ namespace CapaDatos
         public bool EditarEventos(string titulo, string descripcion, DateTime fechaHora, string ubicacion, int id)
         {
             SqlCommand comando = new SqlCommand();
+
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "EditarEventos";
             comando.CommandType = CommandType.StoredProcedure;
@@ -83,6 +85,7 @@ namespace CapaDatos
         public bool EliminarEventos(int id)
         {
             SqlCommand comando = new SqlCommand();
+
             comando.Connection = conexion.AbrirConexion();
             comando.CommandText = "EliminarEvento";
             comando.CommandType = CommandType.StoredProcedure;
@@ -98,6 +101,25 @@ namespace CapaDatos
                 resultado = true;
 
             return resultado;
+        }
+        public DataTable BuscarEventoPorTitulo(string titulo)
+        {
+            SqlDataReader leer;
+            DataTable tabla = new DataTable();
+            SqlCommand comando = new SqlCommand();
+
+            comando.Connection = conexion.AbrirConexion();
+            comando.CommandText = "BuscarEventoPorTitulo";
+            comando.CommandType = CommandType.StoredProcedure;
+
+            comando.Parameters.Clear();
+            comando.Parameters.AddWithValue("@titulo", titulo);
+
+            leer = comando.ExecuteReader();
+            tabla.Load(leer);
+            conexion.CerrarConexion();
+
+            return tabla;
         }
     }
 }

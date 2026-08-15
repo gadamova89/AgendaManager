@@ -37,15 +37,16 @@ namespace Api.Controllers
 
         // POST: api/Eventos
         [HttpPost("CrearEvento")]
-        public IActionResult Post([FromBody] EventoRequest request)
+        public IActionResult Post([FromBody] EventoCreateRequest request)
         {
             bool resultado = ObjetoCN.InsertarEventos(request.Titulo, request.Descripcion, request.FechaHora,    request.Ubicacion
             );
 
             if (resultado)
-                return Ok(new { 
+                return Ok(
+                    new { 
                     mensaje = "Creado correctamente",
-                    objeto = request
+                    data = request
                 });
             else
                 return BadRequest(new
@@ -83,6 +84,43 @@ namespace Api.Controllers
                 });
             else
                 return NotFound();
+        }
+
+        [HttpGet("BuscarEventoPorTitulo")]
+        public IActionResult BuscarEventoPorTitulo([FromQuery] string titulo)
+        {
+            DataTable tabla = ObjetoCN.BuscarEventoPorTitulo(titulo);
+            
+            if (tabla.Rows.Count == 0)
+            {
+                return NotFound(
+                        new
+                        {
+                            mensaje = "No se encontraron Eventos con ese titulo."
+                        }
+                    );
+            }
+            List<EventoResponse> lista = new List<EventoResponse>();
+
+            foreach (DataRow fila  in tabla.Rows)
+            {
+                EventoResponse Evento = new EventoResponse();
+                Evento.Id = Convert.ToInt32(fila["Id"]);
+                Evento.Titulo = Convert.ToString(fila["Titulo"]);
+                Evento.Descripcion = Convert.ToString(fila["Descripcion"]);
+                Evento.FechaHora = Convert.ToDateTime(fila["FechaHora"]);
+                Evento.Ubicacion = Convert.ToString(fila["Ubicacion"]);
+
+                lista.Add(Evento);
+            }
+
+            return Ok(
+                new
+                {
+                    eventos = lista
+                }
+                );
+            
         }
     }
 }

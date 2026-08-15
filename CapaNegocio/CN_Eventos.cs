@@ -35,5 +35,10 @@ namespace CapaNegocio
         {
             return objetoCD.EliminarEventos(id);
         }
+
+        public DataTable BuscarEventoPorTitulo(string titulo)
+        {
+            return objetoCD.BuscarEventoPorTitulo(titulo);
+        }
     }
 }
