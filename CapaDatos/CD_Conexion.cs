@@ -10,7 +10,7 @@ namespace CapaDatos
 {
     internal class CD_Conexion
     {
-        private SqlConnection Conexion = new SqlConnection("Server=; Database=; trustservercertificate=true");
+        private SqlConnection Conexion = new SqlConnection("Server=DESKTOP-SG9LKAU\\MSSQLSERVER01; Database=AgendaDB;  Integrated Security=True; trustservercertificate=true");
         
         public SqlConnection AbrirConexion()
         {

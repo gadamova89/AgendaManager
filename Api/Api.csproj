@@ -12,11 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Responses\" />
-    <Folder Include="Models\Requests\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CapaNegocio\CapaNegocio.csproj" />
   </ItemGroup>
 
